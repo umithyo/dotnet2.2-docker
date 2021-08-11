@@ -1,0 +1,10 @@
+FROM ubuntu:latest AS dotnet
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
+COPY ["dotnet-install.sh", "dotnet-install.sh"]
+RUN apt-get update \
+    && apt-get install curl -y \
+    && apt-get install wget -y \
+    && wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl1.0/libssl1.0.0_1.0.2n-1ubuntu5.6_amd64.deb \
+    && dpkg -i libssl1.0.0_1.0.2n-1ubuntu5.6_amd64.deb \
+    && ./dotnet-install.sh --version 2.2.202 \
+    && ln -s /root/.dotnet/dotnet /usr/bin/dotnet
